@@ -6,49 +6,108 @@
   <title>Calculadora Científica</title>
   <style>
     :root{
-      --bg:#0f1724; --card:#0b1220; --accent:#06b6d4; --accent-2:#8b5cf6; --muted:#94a3b8; --glass: rgba(255,255,255,0.03);
-      --btn:#111827; --btn-hover:#1f2937; --danger:#ef4444; --ok:#10b981;
-      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0}
-    body{
-      background: linear-gradient(180deg,var(--bg), #071124 140%);
-      color:#e6eef6; display:flex; align-items:center; justify-content:center; padding:28px;
-    }
-    .calculator{
-      width:380px; max-width:96vw; background:linear-gradient(180deg,var(--card), #071428);
-      border-radius:16px; box-shadow: 0 10px 30px rgba(2,6,23,0.7); padding:18px; border:1px solid rgba(255,255,255,0.03);
-    }
-    .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-    .brand{display:flex;gap:8px;align-items:center}
-    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700}
-    .title{font-size:14px;color:white}
-    .subtitle{font-size:11px;color:var(--muted);margin-top:2px}
+  --bg:#0f1724; --card:#0b1220; --accent:#06b6d4; --accent-2:#8b5cf6; --muted:#94a3b8; --glass: rgba(255,255,255,0.03);
+  --btn:#111827; --btn-hover:#1f2937; --danger:#ef4444; --ok:#10b981;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
 
-    .modes{display:flex;gap:8px;align-items:center}
-    .mode-btn{background:var(--glass);border:1px solid rgba(255,255,255,0.04);padding:6px 8px;border-radius:8px;font-size:13px;cursor:pointer}
-    .mode-btn.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021025}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{
+  background: linear-gradient(180deg,var(--bg), #071124 140%);
+  color:#e6eef6; display:flex; align-items:center; justify-content:center; padding:16px;
+}
 
-    .screen{background: rgba(0,0,0,0.35); padding:10px;border-radius:10px; margin-bottom:12px; min-height:78px; display:flex;flex-direction:column;justify-content:space-between}
-    .display{font-size:20px; color:#dbeafe; text-align:right; word-break:break-all}
-    .small{font-size:12px;color:var(--muted); text-align:right}
+/* ⬇ Ajustado para iPhone 13 */
+.calculator{
+  width:100%;
+  max-width:380px;
+  background:linear-gradient(180deg,var(--card), #071428);
+  border-radius:20px;
+  box-shadow: 0 10px 30px rgba(2,6,23,0.7);
+  padding:16px;
+  border:1px solid rgba(255,255,255,0.03);
+}
 
-    .keys{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
-    button.key{background:var(--btn);border:1px solid rgba(255,255,255,0.03);padding:12px;border-radius:8px;font-size:15px;color:#e6eef6;cursor:pointer}
-    button.key:hover{background:var(--btn-hover)}
-    .op{background:linear-gradient(180deg,#0b1220,#0e1b2a);}
-    .fn{background:linear-gradient(180deg,#081226,#0b1b2a);font-size:13px}
-    .accent{background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#021025; font-weight:600}
-    .danger{background:var(--danger);}
-    .wide{grid-column:span 2}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.brand{display:flex;gap:8px;align-items:center}
+.logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700}
+.title{font-size:13px;color:white}
+.subtitle{font-size:10px;color:var(--muted);margin-top:2px}
 
-    .footer{margin-top:12px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;align-items:center}
-    .kbd-tip{font-size:11px}
+/* Botões DEG/RAD */
+.modes{display:flex;gap:6px;align-items:center}
+.mode-btn{
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,0.04);
+  padding:6px 8px;
+  border-radius:8px;
+  font-size:12px;
+  cursor:pointer;
+}
+.mode-btn.active{
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  color:#021025;
+}
 
-    @media (max-width:420px){
-      .keys{grid-template-columns:repeat(4,1fr)}
-    }
+/* Tela */
+.screen{
+  background: rgba(0,0,0,0.35);
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:12px;
+  min-height:70px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.display{font-size:22px; color:#dbeafe; text-align:right; word-break:break-all}
+.small{font-size:11px;color:var(--muted); text-align:right}
+
+/* TECLADO PARA IPHONE — 4 COLUNAS */
+.keys{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+}
+
+button.key{
+  background:var(--btn);
+  border:1px solid rgba(255,255,255,0.03);
+  padding:14px 4px;
+  border-radius:10px;
+  font-size:15px;
+  color:#e6eef6;
+  cursor:pointer;
+}
+button.key:hover{background:var(--btn-hover)}
+
+.op{background:linear-gradient(180deg,#0b1220,#0e1b2a);}
+.fn{background:linear-gradient(180deg,#081226,#0b1b2a);font-size:13px}
+.accent{background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#021025; font-weight:600}
+.danger{background:var(--danger);}
+
+.wide{grid-column: span 2}
+
+/* Rodapé */
+.footer{
+  margin-top:10px;
+  color:var(--muted);
+  font-size:11px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.kbd-tip{font-size:10px}
+
+/* Melhor responsividade geral */
+@media (max-width:400px){
+  .display{font-size:20px}
+  button.key{padding:12px;font-size:14px}
+  .subtitle{font-size:9px}
+}
+
   </style>
 </head>
 <body>
