@@ -7,8 +7,8 @@
   <style>
   :root{
   --bg:#0f1724; --card:#0b1220; --accent:#06b6d4; --accent-2:#8b5cf6; --muted:#94a3b8; --glass: rgba(255,255,255,0.03);
-  --btn:#111827; --btn-hover:#1f2937; --danger:#ef4444; --ok:#10b981;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  --btn:#111827; --btn-hover:#1f2937; --danger:#ef4444;
+  font-family: Inter, system-ui, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -16,150 +16,118 @@ html, body { height: 100%; margin: 0; }
 
 body {
   background: linear-gradient(180deg, var(--bg), #071124 140%);
-  color: #e6eef6;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 12px;
+  align-items: center;   /* Já centraliza tudo */
+  padding: 0;
 }
 
-/* CALCULADORA MENOR */
+/* CALCULADORA BEM MENOR */
 .calculator {
   width: 100%;
-  max-width: 380px;   /* ↓ DIMINUÍDO */
+  max-width: 300px;       /* ↓ tamanho compacto */
   background: linear-gradient(180deg, var(--card), #071428);
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(2, 6, 23, 0.6);
-  padding: 16px;      /* ↓ DIMINUÍDO */
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(2, 6, 23, 0.7);
+  padding: 12px;          /* ↓ */
 }
 
+/* Cabeçalho reduzido */
 .header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
+  align-items: center;
 }
 
 .brand {
   display: flex;
-  gap: 10px;
+  gap: 6px;
   align-items: center;
 }
 
-/* Logo reduzido */
 .logo {
-  width: 36px;        /* ↓ */
-  height: 36px;       /* ↓ */
-  border-radius: 8px;
+  width: 28px;            /* ↓ */
+  height: 28px;           /* ↓ */
+  border-radius: 6px;
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
   display: flex;
-  align-items: center;
   justify-content: center;
-  font-weight: 700;
-  font-size: 16px;    /* ↓ */
+  align-items: center;
+  font-size: 14px;        /* ↓ */
 }
 
-.title {
-  font-size: 14px;    /* ↓ */
-}
-.subtitle {
-  font-size: 10px;    /* ↓ */
-  color: var(--muted);
-  margin-top: 2px;
-}
+.title { font-size: 12px; }
+.subtitle { font-size: 9px; color: var(--muted); }
 
-/* DEG / RAD */
-.modes {
-  display: flex;
-  gap: 6px;           /* ↓ */
-}
+/* DEG/RAD */
 .mode-btn {
+  padding: 4px 6px;
+  font-size: 10px;
+  border-radius: 5px;
   background: var(--glass);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  padding: 6px 8px;   /* ↓ */
-  border-radius: 6px; /* ↓ */
-  font-size: 12px;    /* ↓ */
-  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.05);
 }
 .mode-btn.active {
   background: linear-gradient(90deg, var(--accent), var(--accent-2));
   color: #021025;
 }
 
-/* TELA MENOR */
+/* Tela */
 .screen {
   background: rgba(0, 0, 0, 0.35);
-  padding: 10px;      /* ↓ */
+  padding: 8px;
   border-radius: 8px;
-  margin-bottom: 12px;
-  min-height: 70px;   /* ↓ */
+  min-height: 55px;         /* ↓ */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin-bottom: 10px;
 }
 
 .display {
-  font-size: 22px;    /* ↓ */
+  font-size: 18px;          /* ↓ */
+  text-align: right;
   color: #dbeafe;
-  text-align: right;
-  word-break: break-all;
 }
-.small {
-  font-size: 12px;    /* ↓ */
-  color: var(--muted);
-  text-align: right;
-}
+.small { font-size: 10px; }
 
-/* TECLADO MENOR */
+/* Botões compactos */
 .keys {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;           /* ↓ */
+  gap: 6px;                 /* ↓ */
 }
 
 button.key {
+  padding: 10px;            /* ↓ */
+  font-size: 13px;          /* ↓ */
+  border-radius: 6px;
   background: var(--btn);
-  border: 1px solid rgba(255, 255, 255, 0.03);
-  padding: 12px;      /* ↓ */
-  border-radius: 8px; /* ↓ */
-  font-size: 16px;    /* ↓ */
-  color: #e6eef6;
-  cursor: pointer;
-}
-button.key:hover {
-  background: var(--btn-hover);
+  border: 1px solid rgba(255,255,255,0.04);
+  color: #dce6f3;
 }
 
-.fn { font-size: 13px; }
-.op { background: linear-gradient(180deg, #0b1220, #0e1b2a); }
-.accent {
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  color: #021025;
-  font-weight: 600;
-}
+.fn { font-size: 11px; }
+.op { background: #0e1a28; }
+.accent { background: linear-gradient(90deg, var(--accent), var(--accent-2)); color:#021025; font-weight:600; }
 .danger { background: var(--danger); }
 
 .wide { grid-column: span 2; }
 
-/* Rodapé menor */
+/* Footer */
 .footer {
-  margin-top: 12px;
+  margin-top: 10px;
+  font-size: 10px;
   color: var(--muted);
-  font-size: 12px;    /* ↓ */
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
+.kbd-tip { font-size: 9px; }
 
-.kbd-tip{
-  font-size: 10px;    /* ↓ */
-}
-
-/* Responsivo */
-@media (max-width: 800px) {
-  .display { font-size: 20px; }
-  button.key { padding: 10px; font-size: 14px; }
+/* Mobile responsivo */
+@media (max-width: 600px) {
+  .calculator { max-width: 280px; }
 }
 </style>
 </head>
