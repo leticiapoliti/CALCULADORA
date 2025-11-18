@@ -6,108 +6,175 @@
   <title>Calculadora Científica</title>
   <style>
     :root{
-  --bg:#0f1724; --card:#0b1220; --accent:#06b6d4; --accent-2:#8b5cf6; --muted:#94a3b8; --glass: rgba(255,255,255,0.03);
-  --btn:#111827; --btn-hover:#1f2937; --danger:#ef4444; --ok:#10b981;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-}
+      --bg:#0f1724; --card:#0b1220; --accent:#06b6d4; --accent-2:#8b5cf6; --muted:#94a3b8; --glass: rgba(255,255,255,0.03);
+      --btn:#111827; --btn-hover:#1f2937; --danger:#ef4444; --ok:#10b981;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
 
-*{box-sizing:border-box}
-html,body{height:100%;margin:0}
-body{
-  background: linear-gradient(180deg,var(--bg), #071124 140%);
-  color:#e6eef6; display:flex; align-items:center; justify-content:center; padding:16px;
-}
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
 
-/* ⬇ Ajustado para iPhone 13 */
-.calculator{
-  width:100%;
-  max-width:380px;
-  background:linear-gradient(180deg,var(--card), #071428);
-  border-radius:20px;
-  box-shadow: 0 10px 30px rgba(2,6,23,0.7);
-  padding:16px;
-  border:1px solid rgba(255,255,255,0.03);
-}
+    body {
+      background: linear-gradient(180deg, var(--bg), #071124 140%);
+      color: #e6eef6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
 
-.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.brand{display:flex;gap:8px;align-items:center}
-.logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700}
-.title{font-size:13px;color:white}
-.subtitle{font-size:10px;color:var(--muted);margin-top:2px}
+    /* Ajustado para computador */
+    .calculator {
+      width: 100%;
+      max-width: 600px; /* Aumentado para tela de desktop */
+      background: linear-gradient(180deg, var(--card), #071428);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(2, 6, 23, 0.7);
+      padding: 24px; /* Ajustado para desktop */
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
 
-/* Botões DEG/RAD */
-.modes{display:flex;gap:6px;align-items:center}
-.mode-btn{
-  background:var(--glass);
-  border:1px solid rgba(255,255,255,0.04);
-  padding:6px 8px;
-  border-radius:8px;
-  font-size:12px;
-  cursor:pointer;
-}
-.mode-btn.active{
-  background:linear-gradient(90deg,var(--accent),var(--accent-2));
-  color:#021025;
-}
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 20px; /* Aumentado o tamanho do logo */
+    }
+    .title {
+      font-size: 16px;
+      color: white;
+    }
+    .subtitle {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
 
-/* Tela */
-.screen{
-  background: rgba(0,0,0,0.35);
-  padding:10px;
-  border-radius:10px;
-  margin-bottom:12px;
-  min-height:70px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-}
-.display{font-size:22px; color:#dbeafe; text-align:right; word-break:break-all}
-.small{font-size:11px;color:var(--muted); text-align:right}
+    /* Botões DEG/RAD */
+    .modes {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .mode-btn {
+      background: var(--glass);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .mode-btn.active {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: #021025;
+    }
 
-/* TECLADO PARA IPHONE — 4 COLUNAS */
-.keys{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
-}
+    /* Tela */
+    .screen {
+      background: rgba(0, 0, 0, 0.35);
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      min-height: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .display {
+      font-size: 30px; /* Aumentado o tamanho da tela */
+      color: #dbeafe;
+      text-align: right;
+      word-break: break-all;
+    }
+    .small {
+      font-size: 14px;
+      color: var(--muted);
+      text-align: right;
+    }
 
-button.key{
-  background:var(--btn);
-  border:1px solid rgba(255,255,255,0.03);
-  padding:14px 4px;
-  border-radius:10px;
-  font-size:15px;
-  color:#e6eef6;
-  cursor:pointer;
-}
-button.key:hover{background:var(--btn-hover)}
+    /* Teclado para Desktop — 4 Colunas */
+    .keys {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px; /* Aumentado o espaçamento entre os botões */
+    }
 
-.op{background:linear-gradient(180deg,#0b1220,#0e1b2a);}
-.fn{background:linear-gradient(180deg,#081226,#0b1b2a);font-size:13px}
-.accent{background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#021025; font-weight:600}
-.danger{background:var(--danger);}
+    button.key {
+      background: var(--btn);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      padding: 18px;
+      border-radius: 12px; /* Aumentado o raio do botão */
+      font-size: 20px; /* Aumentado o tamanho da fonte dos botões */
+      color: #e6eef6;
+      cursor: pointer;
+    }
+    button.key:hover {
+      background: var(--btn-hover);
+    }
 
-.wide{grid-column: span 2}
+    .op {
+      background: linear-gradient(180deg, #0b1220, #0e1b2a);
+    }
+    .fn {
+      background: linear-gradient(180deg, #081226, #0b1b2a);
+      font-size: 16px; /* Tamanho maior para funções */
+    }
+    .accent {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: #021025;
+      font-weight: 600;
+    }
+    .danger {
+      background: var(--danger);
+    }
 
-/* Rodapé */
-.footer{
-  margin-top:10px;
-  color:var(--muted);
-  font-size:11px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
+    .wide {
+      grid-column: span 2;
+    }
 
-.kbd-tip{font-size:10px}
+    /* Rodapé */
+    .footer {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-/* Melhor responsividade geral */
-@media (max-width:400px){
-  .display{font-size:20px}
-  button.key{padding:12px;font-size:14px}
-  .subtitle{font-size:9px}
-}
+    .kbd-tip {
+      font-size: 12px;
+    }
 
+    /* Melhor responsividade geral */
+    @media (max-width: 800px) {
+      .display {
+        font-size: 28px; /* Ajustar para telas menores */
+      }
+      button.key {
+        padding: 16px;
+        font-size: 18px;
+      }
+      .subtitle {
+        font-size: 12px;
+      }
+    }
   </style>
 </head>
 <body>
