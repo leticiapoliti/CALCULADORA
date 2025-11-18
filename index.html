@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Calculadora Científica</title>
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --accent:#06b6d4; --accent-2:#8b5cf6; --muted:#94a3b8; --glass: rgba(255,255,255,0.03);
+      --btn:#111827; --btn-hover:#1f2937; --danger:#ef4444; --ok:#10b981;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{
+      background: linear-gradient(180deg,var(--bg), #071124 140%);
+      color:#e6eef6; display:flex; align-items:center; justify-content:center; padding:28px;
+    }
+    .calculator{
+      width:380px; max-width:96vw; background:linear-gradient(180deg,var(--card), #071428);
+      border-radius:16px; box-shadow: 0 10px 30px rgba(2,6,23,0.7); padding:18px; border:1px solid rgba(255,255,255,0.03);
+    }
+    .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .brand{display:flex;gap:8px;align-items:center}
+    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700}
+    .title{font-size:14px;color:white}
+    .subtitle{font-size:11px;color:var(--muted);margin-top:2px}
+
+    .modes{display:flex;gap:8px;align-items:center}
+    .mode-btn{background:var(--glass);border:1px solid rgba(255,255,255,0.04);padding:6px 8px;border-radius:8px;font-size:13px;cursor:pointer}
+    .mode-btn.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021025}
+
+    .screen{background: rgba(0,0,0,0.35); padding:10px;border-radius:10px; margin-bottom:12px; min-height:78px; display:flex;flex-direction:column;justify-content:space-between}
+    .display{font-size:20px; color:#dbeafe; text-align:right; word-break:break-all}
+    .small{font-size:12px;color:var(--muted); text-align:right}
+
+    .keys{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+    button.key{background:var(--btn);border:1px solid rgba(255,255,255,0.03);padding:12px;border-radius:8px;font-size:15px;color:#e6eef6;cursor:pointer}
+    button.key:hover{background:var(--btn-hover)}
+    .op{background:linear-gradient(180deg,#0b1220,#0e1b2a);}
+    .fn{background:linear-gradient(180deg,#081226,#0b1b2a);font-size:13px}
+    .accent{background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#021025; font-weight:600}
+    .danger{background:var(--danger);}
+    .wide{grid-column:span 2}
+
+    .footer{margin-top:12px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;align-items:center}
+    .kbd-tip{font-size:11px}
+
+    @media (max-width:420px){
+      .keys{grid-template-columns:repeat(4,1fr)}
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator" role="application" aria-label="Calculadora científica">
+    <div class="header">
+      <div class="brand">
+        <div class="logo">ƒ</div>
+        <div>
+          <div class="title">Calculadora Científica</div>
+          <div class="subtitle">Graus / RAD · sen cos tan · eˣ · ln · xʸ · n√x</div>
+        </div>
+      </div>
+
+      <div class="modes">
+        <button id="deg" class="mode-btn">DEG</button>
+        <button id="rad" class="mode-btn">RAD</button>
+      </div>
+    </div>
+
+    <div class="screen">
+      <div id="memory" class="small"> </div>
+      <div id="display" class="display">0</div>
+    </div>
+
+    <div class="keys" role="group" aria-label="Teclado">
+      <!-- Row 1 -->
+      <button class="key fn" data-action="mc">MC</button>
+      <button class="key fn" data-action="mr">MR</button>
+      <button class="key fn" data-action="mplus">M+</button>
+      <button class="key fn" data-action="mminus">M-</button>
+      <button class="key fn" data-value="(">(</button>
+      <button class="key fn" data-value=")">)</button>
+
+      <!-- Row 2 -->
+      <button class="key fn" data-action="sin">sin</button>
+      <button class="key fn" data-action="cos">cos</button>
+      <button class="key fn" data-action="tan">tan</button>
+      <button class="key fn" data-action="ln">ln</button>
+      <button class="key fn" data-action="exp">e^x</button>
+      <button class="key fn" data-action="pow">x^y</button>
+
+      <!-- Row 3 -->
+      <button class="key" data-value="7">7</button>
+      <button class="key" data-value="8">8</button>
+      <button class="key" data-value="9">9</button>
+      <button class="key op" data-action="div">÷</button>
+      <button class="key fn" data-action="sqrt">√</button>
+      <button class="key" data-value="√">n√x</button>
+
+      <!-- Row 4 -->
+      <button class="key" data-value="4">4</button>
+      <button class="key" data-value="5">5</button>
+      <button class="key" data-value="6">6</button>
+      <button class="key op" data-action="mul">×</button>
+      <button class="key fn" data-action="pi">π</button>
+      <button class="key fn" data-action="e">e</button>
+
+      <!-- Row 5 -->
+      <button class="key" data-value="1">1</button>
+      <button class="key" data-value="2">2</button>
+      <button class="key" data-value="3">3</button>
+      <button class="key op" data-action="sub">−</button>
+      <button class="key fn" data-action="ans">ANS</button>
+      <button class="key fn" data-action="rand">RND</button>
+
+      <!-- Row 6 -->
+      <button class="key wide" data-value="0">0</button>
+      <button class="key" data-value=".">.</button>
+      <button class="key op" data-action="add">+</button>
+      <button class="key accent wide" data-action="equals">=</button>
+
+      <!-- Row 7 controls -->
+      <button class="key danger" data-action="clear">C</button>
+      <button class="key" data-action="back">⌫</button>
+      <button class="key fn" data-action="toggleSign">+/-</button>
+      <button class="key fn" data-action="percent">%</button>
+      <button class="key fn" data-action="degRadInfo">mode</button>
+      <button class="key fn" data-action="history">hist</button>
+    </div>
+
+    <div class="footer">
+      <div class="kbd-tip">Use teclado: números, + - * / Enter = Backspace</div>
+      <div id="ver" class="small">v1.0</div>
+    </div>
+  </div>
+
+  <script>
+// Função para ajustar arredondamento
+function ajustarNumero(n) {
+  if (typeof n !== 'number' || !isFinite(n)) return n;
+  let x = Math.round(n * 1e12) / 1e12;
+  return parseFloat(x.toString());
+}
+
+(function(){
+  const display = document.getElementById('display');
+  const memoryEl = document.getElementById('memory');
+  const degBtn = document.getElementById('deg');
+  const radBtn = document.getElementById('rad');
+
+  let isDeg = true; // default
+  let expression = '';
+  let memory = 0;
+  let lastAnswer = '';
+
+  function render(){
+    display.textContent = expression === '' ? '0' : expression;
+    memoryEl.textContent = memory !== 0 ? `M = ${ajustarNumero(memory)}` : '';
+  }
+
+  function setMode(deg){
+    isDeg = !!deg;
+    degBtn.classList.toggle('active', isDeg);
+    radBtn.classList.toggle('active', !isDeg);
+  }
+
+  setMode(true);
+
+  function push(val){
+    // prevent leading multiple zeros
+    if(expression === '0' && val !== '.' ) expression = '';
+    expression += val;
+    render();
+  }
+
+  function clearAll(){ expression = ''; render(); }
+  function backspace(){ expression = expression.slice(0,-1); render(); }
+
+  function toRadians(v){ return v * Math.PI / 180; }
+  function func_sin(x){ const val = Number(x); const r = isDeg ? Math.sin(toRadians(val)) : Math.sin(val); return ajustarNumero(r); }
+  function func_cos(x){ const val = Number(x); const r = isDeg ? Math.cos(toRadians(val)) : Math.cos(val); return ajustarNumero(r); }
+  function func_tan(x){ const val = Number(x); const r = isDeg ? Math.tan(toRadians(val)) : Math.tan(val); return ajustarNumero(r); }
+
+  // nroot(index, radicand) => radicand^(1/index)
+  function nroot(index, radicand){
+    index = Number(index); radicand = Number(radicand);
+    return ajustarNumero(Math.pow(radicand, 1 / index));
+  }
+
+  // Attach button listeners
+  document.querySelectorAll('button.key').forEach(btn=>{
+    btn.addEventListener('click',(ev)=>{
+      const v = btn.getAttribute('data-value');
+      const action = btn.getAttribute('data-action');
+      if(v) return push(v);
+      if(action) return handleAction(action);
+    });
+  });
+
+  function handleAction(action){
+    switch(action){
+      case 'clear': clearAll(); break;
+      case 'back': backspace(); break;
+      case 'equals': evaluate(); break;
+      case 'add': push('+'); break;
+      case 'sub': push('-'); break;
+      case 'mul': push('×'); break;
+      case 'div': push('÷'); break;
+      case 'sin': push('sin('); break;
+      case 'cos': push('cos('); break;
+      case 'tan': push('tan('); break;
+      case 'ln': push('ln('); break;
+      case 'exp': push('exp('); break; // exp(x) => e^x
+      case 'pow': push('^'); break;
+      case 'sqrt': push('√('); break; // we'll parse √(...) later
+      case 'nroot': push('n√('); break; // use format: 3n√(27) or 3n√27 (we'll parse)
+      case 'pi': push('pi'); break;
+      case 'e': push('e'); break;
+      case 'ans': push(lastAnswer || '0'); break;
+      case 'rand': push(Math.random().toFixed(6)); break;
+      case 'mc': memory = 0; render(); break;
+      case 'mr': push(String(memory)); break;
+      case 'mplus': memory += parseFloat(lastAnswer || '0'); render(); break;
+      case 'mminus': memory -= parseFloat(lastAnswer || '0'); render(); break;
+      case 'toggleSign': toggleSign(); break;
+      case 'percent': push('/100'); break;
+      case 'degRadInfo': alert('Modo: ' + (isDeg? 'DEG (graus)': 'RAD (radianos)')) ; break;
+      case 'history': alert('Última resposta: ' + (lastAnswer || 'nenhuma')) ; break;
+    }
+  }
+
+  function toggleSign(){
+    if(expression === '') { expression = '-'; render(); return }
+    expression = expression.replace(/(\d+(?:\.\d+)?)$/,(m)=> String(-parseFloat(m)));
+    render();
+  }
+
+  function evaluate() {
+    if (expression.trim() === '') return;
+    let e = expression;
+
+    // Normalize
+    e = e.replace(/\s+/g, '');
+    e = e.replace(/÷/g, '/').replace(/×/g, '*').replace(/−/g, '-');
+
+    // Handle indexed roots like 3n√27 or 3√27 (both forms)
+    // Format allowed: 3n√(27) OR 3√(27)
+    e = e.replace(/(\d+)\s*n?√\s*\(?\s*([^\)]+)\s*\)?/g, function(_, index, radicand){
+      return `nroot(${index},${radicand})`;
+    });
+
+    // Handle plain square root written as √9 or √(9) (if any left)
+    e = e.replace(/√\(?\s*([^\)]+)\s*\)?/g, function(_, rad){
+      return `Math.sqrt(${rad})`;
+    });
+
+    // Power ^ -> **
+    e = e.replace(/\^/g, '**');
+
+    // Constants
+    e = e.replace(/\bpi\b/g, 'Math.PI');
+    // ensure 'e' as constant only when standalone (avoid replacing in 'exp')
+    e = e.replace(/\b(?<![A-Za-z0-9_])e(?!(xp|[A-Za-z0-9_]))/g, 'Math.E');
+
+    // Functions mapping (use our func_* wrappers for trig to handle deg/rad)
+    e = e.replace(/\bsin\s*\(/g, 'func_sin(');
+    e = e.replace(/\bcos\s*\(/g, 'func_cos(');
+    e = e.replace(/\btan\s*\(/g, 'func_tan(');
+
+    // ln -> natural log
+    e = e.replace(/\bln\s*\(/g, 'Math.log(');
+
+    // exp(x) => Math.exp(x)
+    e = e.replace(/\bexp\s*\(/g, 'Math.exp(');
+
+    // Any plain 'sqrt(' left? map to Math.sqrt
+    e = e.replace(/\bsqrt\s*\(/g, 'Math.sqrt(');
+
+    // Prevent empty placeholder boxes (if any)
+    if (e.includes("□")) {
+      alert('Erro: expressão incompleta');
+      return;
+    }
+
+    try {
+      // Use Function to evaluate in a controlled scope
+      const fn = new Function('func_sin','func_cos','func_tan','Math','nroot','return ('+e+');');
+      const raw = fn(func_sin, func_cos, func_tan, Math, nroot);
+      const result = (typeof raw === 'number') ? ajustarNumero(raw) : raw;
+      lastAnswer = String(result);
+      expression = String(result); // show result in display (like normal calculators)
+      render();
+    } catch (err) {
+      alert('Erro ao avaliar expressão: ' + err.message);
+    }
+  }
+
+  // DEG/RAD toggles
+  degBtn.addEventListener('click', ()=> setMode(true));
+  radBtn.addEventListener('click', ()=> setMode(false));
+
+  // Keyboard support
+  window.addEventListener('keydown',(e)=>{
+    if(e.key >= '0' && e.key <='9') { push(e.key); e.preventDefault(); }
+    if(e.key === '.') { push('.'); e.preventDefault(); }
+    if(e.key === 'Backspace') { backspace(); e.preventDefault(); }
+    if(e.key === 'Enter' || e.key === '=') { evaluate(); e.preventDefault(); }
+    if(e.key === '+') { push('+'); e.preventDefault(); }
+    if(e.key === '-') { push('-'); e.preventDefault(); }
+    if(e.key === '*') { push('×'); e.preventDefault(); }
+    if(e.key === '/') { push('÷'); e.preventDefault(); }
+    if(e.key === '(') { push('('); e.preventDefault(); }
+    if(e.key === ')') { push(')'); e.preventDefault(); }
+  });
+
+  // initial render
+  render();
+
+})();
+</script>
+
+</body>
+</html>
